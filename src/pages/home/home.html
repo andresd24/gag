@@ -1,0 +1,41 @@
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src *;
+img-src * 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+style-src  'self' 'unsafe-inline' *">
+</head>
+
+<ion-header>
+    <ion-navbar color="dark" align-title="center">
+        <ion-title>
+            8Gag
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-card *ngFor="let post of posts | async">
+        <img [src]="post.image">
+
+        <ion-card-content>
+            <ion-card-title>
+                {{post.title}}
+            </ion-card-title>
+        </ion-card-content>
+
+        <ion-row>
+            <ion-col text-right>
+                <button ion-button clear small color="primary" icon-left>
+                  <ion-icon name="share-alt"> </ion-icon>
+                  Share
+              </button>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+
+    <ion-fab bottom right>
+        <button ion-fab color="danger" (click)="show_modal()"><ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+
+</ion-content>
