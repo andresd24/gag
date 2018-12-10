@@ -14,6 +14,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { PipesModule } from '../pipes/pipes.module';
 
 import { Camera } from '@ionic-native/camera';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCUGH0xkNcMLR8HM3LQpRN43-if07m6Vo0",
@@ -49,6 +50,7 @@ export const firebaseConfig = {
     SplashScreen,
     AngularFireDatabase,
     Camera,
+    ImagePicker,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
