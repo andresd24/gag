@@ -15,6 +15,7 @@ import { PipesModule } from '../pipes/pipes.module';
 
 import { Camera } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { UploadFileProvider } from '../providers/upload-file/upload-file';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCUGH0xkNcMLR8HM3LQpRN43-if07m6Vo0",
@@ -51,7 +52,8 @@ export const firebaseConfig = {
     AngularFireDatabase,
     Camera,
     ImagePicker,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UploadFileProvider
   ]
 })
 export class AppModule {}

@@ -14,6 +14,13 @@ style-src  'self' 'unsafe-inline' *">
         </ion-buttons>
 
         <ion-title>{{title | placeHolder: 'Create new post'}}</ion-title>
+
+        <ion-buttons end>
+            <button ion-button (click)="create_post()">
+                Create Post
+            </button>
+        </ion-buttons>
+
     </ion-navbar>
 
 </ion-header>
