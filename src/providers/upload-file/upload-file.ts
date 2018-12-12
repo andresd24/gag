@@ -4,11 +4,15 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase';
 import { ToastController } from 'ionic-angular';
+import { async } from 'rxjs/internal/scheduler/async';
 
 @Injectable()
 export class UploadFileProvider {
 
-  constructor(private _toastCtrl: ToastController) {
+  public images:UploadFile[] = [];
+
+  constructor(private _toastCtrl: ToastController,
+              private _angularFireDB: AngularFireDatabase) {
     console.log('Hello UploadFileProvider Provider');
   }
 
@@ -32,16 +36,47 @@ export class UploadFileProvider {
                   this.show_toast(JSON.stringify(error));
                   reject(); 
               },
-              () => {
-                  console.log("file uploaded");
-                  this.show_toast("image successfully loaded!")
-                  resolve();
+              async () => {
+                console.log("file uploaded");
+
+                let img = firebase.storage().ref("/images/" + fileName).getDownloadURL();
+                let ref= firebase.storage().ref();
+                const imgRef = ref.child("/images/" + fileName);
+                let url = await imgRef.getDownloadURL();
+
+                console.log("file.title = " + file.title);
+                console.log("url = " + url);
+                console.log("fileName = " + fileName);
+                this.create_post(file.title, url, fileName);
+                console.log("finished calling create_post()");
+                this.show_toast("image successfully loaded!")
+
+                resolve();
               }
+
             )
 
       });
 
       return promise;
+  }
+
+  private create_post(title:string, url: string, fileName: string) {
+    let post: UploadFile = {
+        image: url,
+        title: title,
+        key: fileName
+    };
+
+    console.log(post.image);
+    console.log(post.title);
+    console.log(post.key);
+
+    console.log(JSON.stringify(post));    
+    this._angularFireDB.object(`/post/${ fileName }`).update(post);
+    this.images.push(post);
+    //this._angularFireDB.list('/posts').push(post);
+
   }
 
  

@@ -18,12 +18,14 @@ export class UploadPage {
               private camera: Camera,
               private _imagePicker: ImagePicker,
               private _ufp: UploadFileProvider) {
+                  this.title = "";
+                  this.imagePreview = "";
   }
 
-        close_modal() {
-            this.viewCtrl.dismiss();
-        }
-    
+    close_modal() {
+        this.viewCtrl.dismiss();
+    }
+
     select_pictures() {
         const imagePickerOptions: ImagePickerOptions = {
             quality: 70,
@@ -46,8 +48,10 @@ export class UploadPage {
             quality: 50,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE
-          }
+            mediaType: this.camera.MediaType.PICTURE,
+            allowEdit: true,
+            correctOrientation: true
+        }
     
      
          this.camera.getPicture(options).then((imageData) => {
@@ -63,8 +67,14 @@ export class UploadPage {
         let file = {
             image: this.image64,
             title: this.title
-        }
-        this._ufp.load_image_firebase(file);
+        };
+
+        console.log(file.title);
+        this._ufp.load_image_firebase(file)
+            .then(() => {
+                console.log("closing modal");
+                this.close_modal();
+            });
     }
 
 }
