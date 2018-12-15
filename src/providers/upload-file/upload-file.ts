@@ -32,7 +32,7 @@ export class UploadFileProvider {
           )
   }
 
-  private load_images() {
+  load_images() {
       return new Promise ((resolve, reject)=> {
           this._angularFireDB.list('/post', 
             ref => ref.limitToLast(3).orderByKey().endAt(this.lastKey))
@@ -40,7 +40,6 @@ export class UploadFileProvider {
                  posts.pop();
                  
                  if (posts.length == 0) {
-                     console.log("no more posts...");
                      resolve(false);
                      return;
                  }
@@ -51,6 +50,8 @@ export class UploadFileProvider {
                      let post = posts[i];
                      this.images.push(post);  
                  }
+
+                 resolve(true);
 
             })
       });

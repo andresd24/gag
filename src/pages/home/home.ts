@@ -13,26 +13,25 @@ import { UploadFileProvider } from '../../providers/upload-file/upload-file';
 })
 export class HomePage {
   posts: any = [];
+  public areThereMore: boolean = true;
 
   constructor(private modalCtrl: ModalController,
               private afDB: AngularFireDatabase,
               private platform: Platform,
-              private _uploadFileProvider: UploadFileProvider) {
-        //this.posts =  afDB.list('post').valueChanges();
+              public _uploadFileProvider: UploadFileProvider) {
     }
 
   show_modal() {
-      console.log("show modal");
       let modal = this.modalCtrl.create(UploadPage)
       modal.present();
   } 
 
-  /*
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
-    this._uploadFileProvider.load_images()
-      .then(() => { infiniteScroll.complete();});
+    this._uploadFileProvider.load_images().then((areThereMore: boolean) => {
+        this.areThereMore = areThereMore;  
+        infiniteScroll.complete();
+      });
   }
-  */
+
 
 }
