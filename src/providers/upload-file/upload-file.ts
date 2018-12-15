@@ -5,15 +5,56 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase';
 import { ToastController } from 'ionic-angular';
 import { async } from 'rxjs/internal/scheduler/async';
+import { map} from 'rxjs/operators/map';
 
 @Injectable()
 export class UploadFileProvider {
 
   public images:UploadFile[] = [];
+  public lastKey:string = null;
 
   constructor(private _toastCtrl: ToastController,
               private _angularFireDB: AngularFireDatabase) {
-    console.log('Hello UploadFileProvider Provider');
+      this.load_last_key().subscribe( () => {
+          this.load_images();
+      });
+  }
+
+  private load_last_key() {
+    return this._angularFireDB.list('/post', ref =>  ref.orderByKey().limitToLast(1))
+          .valueChanges().pipe(
+              map((post:any) => {
+                  console.log(post);
+                  this.lastKey = post[0].key;
+    
+                  this.images.push( post[0]);
+              })
+          )
+  }
+
+  private load_images() {
+      return new Promise ((resolve, reject)=> {
+          this._angularFireDB.list('/post', 
+            ref => ref.limitToLast(3).orderByKey().endAt(this.lastKey))
+            .valueChanges().subscribe( (posts: any) => {
+                 posts.pop();
+                 
+                 if (posts.length == 0) {
+                     console.log("no more posts...");
+                     resolve(false);
+                     return;
+                 }
+
+                 this.lastKey = posts[0].key;
+
+                 for (let i = posts.length -1; i >= 0; i--) {
+                     let post = posts[i];
+                     this.images.push(post);  
+                 }
+
+            })
+      });
+
   }
 
   load_image_firebase(file: UploadFile) {
@@ -75,7 +116,6 @@ export class UploadFileProvider {
     console.log(JSON.stringify(post));    
     this._angularFireDB.object(`/post/${ fileName }`).update(post);
     this.images.push(post);
-    //this._angularFireDB.list('/posts').push(post);
 
   }
 
