@@ -25,7 +25,7 @@ style-src  'self' 'unsafe-inline' *">
 
         <ion-row>
             <ion-col text-right>
-                <button ion-button clear small color="primary" icon-left>
+                <button ion-button clear small color="primary" icon-left (click)="share_post(post)">
                   <ion-icon name="share-alt"> </ion-icon>
                   Share
               </button>
@@ -38,7 +38,7 @@ style-src  'self' 'unsafe-inline' *">
         </button>
     </ion-fab>
 
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="areThereMore">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 

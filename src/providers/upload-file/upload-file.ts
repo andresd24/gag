@@ -105,8 +105,8 @@ export class UploadFileProvider {
 
   private create_post(title:string, url: string, fileName: string) {
     let post: UploadFile = {
-        image: url,
         title: title,
+        image: url,
         key: fileName
     };
 

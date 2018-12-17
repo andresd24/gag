@@ -17,6 +17,8 @@ import { Camera } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { UploadFileProvider } from '../providers/upload-file/upload-file';
 
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyCUGH0xkNcMLR8HM3LQpRN43-if07m6Vo0",
   authDomain: "gag-b730d.firebaseapp.com",
@@ -53,7 +55,8 @@ export const firebaseConfig = {
     Camera,
     ImagePicker,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UploadFileProvider
+    UploadFileProvider,
+    SocialSharing
   ]
 })
 export class AppModule {}
