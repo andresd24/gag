@@ -28,17 +28,19 @@ export class UploadPage {
 
     select_pictures() {
         const imagePickerOptions: ImagePickerOptions = {
-            quality: 70,
+            quality: 50,
             outputType: 1,
-            maximumImagesCount: 1
+            maximumImagesCount: 1,
+            height: 200
           }
     
         this._imagePicker.getPictures(imagePickerOptions).then((results) => {
+            console.log("results.length = " + results.length);
             for (var i = 0; i < results.length; i++) {
                 this.image64 = results[i];
                 this.imagePreview = "data:image/jpeg;base64," + results[i];
             }
-          }, (err) => { });
+          }, (err) => { console.log("error selecting")});
     }
 
 
